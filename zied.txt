@@ -1,0 +1,1 @@
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Users/bonjour/Library/Python/3.9/bin/:/Users/bonjour/Library/Python/3.9/bin/
