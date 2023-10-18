@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:37:12 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/17 21:30:40 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/18 17:25:13 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	error(int code,char *msg)
+void	error(int code, char *msg)
 {
-	printf("\033[31m Error:(%s) %s",ft_itoa(code),msg);
+	printf("\033[31m Error:(%s) %s", ft_itoa(code), msg);
 	exit(EXIT_FAILURE);
 }
-
 
 static int	num_cases(int n)
 {

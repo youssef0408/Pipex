@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:33:43 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/17 21:30:55 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/18 16:53:37 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,11 @@
 # include <unistd.h>
 
 void	file_handler(int fd_p, char *file_path, bool in_out);
-void	error(int code ,char *msg);
+void	error(int code, char *msg);
 int		validation(int argc, char **argv);
 char	*ft_itoa(int n);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
+char	**ft_split(char const *s, char c);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+
 #endif

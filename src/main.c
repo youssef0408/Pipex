@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:36:21 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/17 21:35:07 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/18 14:30:12 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,8 @@ int	main(int argc, char **argv, char **envp)
 	int	num1;
 	int	num2;
 	int	valid;
-	
-
 
 	printf("envp is: %s\n", envp[2]);
-	
-
-
 	valid = validation(argc, argv);
 	if (valid < 0)
 		error(valid, "validation error Code ");

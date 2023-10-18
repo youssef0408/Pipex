@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:34:43 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/17 21:31:05 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/18 17:18:33 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	file_handler(int fd_p, char *file_path, bool in_out)
 	permission = O_RDONLY;
 	fd_1 = STDIN_FILENO;
 	fd_2 = STDOUT_FILENO;
-
 	if (!in_out)
 	{
 		permission = O_WRONLY | O_CREAT | O_TRUNC;
@@ -37,16 +36,26 @@ void	file_handler(int fd_p, char *file_path, bool in_out)
 	close(fd);
 }
 
-int validation(int argc, char**argv)
+int	validation(int argc, char **argv)
 {
-
-	if(argc != 5)
-		return -1;
-	if(access(argv[1], O_RDONLY)<0)
-		return -2;
-	if(access(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC)<0)
-		return -3;
-	return 0;
+	if (argc != 5)
+		return (-1);
+	if (access(argv[1], O_RDONLY) < 0)
+		return (-2);
+	if (access(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC) < 0)
+		return (-3);
+	return (0);
 }
 
-
+void	*extract_paths(char **envp)
+{
+ 	char 	**paths_tab;
+	char	*path;
+	
+	while (*envp && !ft_strnstr(*envp, "PATH=", 5))
+		envp++;
+	path = ft_substr(*envp, 5, ft_strlen(*envp) - 5);
+	paths_tab = ft_split(path, ':');
+	free(path);
+	return(paths_tab);
+}
