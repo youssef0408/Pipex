@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+         #
+#    By: yothmani <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/17 20:44:56 by yothmani          #+#    #+#              #
-#    Updated: 2023/10/18 17:53:41 by yothmani         ###   ########.fr        #
+#    Updated: 2023/10/20 00:50:54 by yothmani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,9 +21,10 @@ RM					= rm -rf
 SRC_DIR 			= src
 INC_DIR 			= includes
 
-INC 				= -I$(INC_DIR)
+INC 				= -I $(INC_DIR)
 
-SRC = $(SRC_DIR)/file.c $(SRC_DIR)/main.c $(SRC_DIR)/pipex_utils.c \
+SRC = $(SRC_DIR)/file.c $(SRC_DIR)/main.c $(SRC_DIR)/pipex_utils.c  $(SRC_DIR)/lib_utils.c\
+$(SRC_DIR)/path_utils.c \
 
 OBJ 				= $(SRC:.c=.o)
 
@@ -42,6 +43,13 @@ norm :
 	@echo $(BOLD)$(PINK)" Mandatory part!"$(MINT)
 	@norminette $(SRC) $(INC_DIR)
 
+run :
+	make && ./pipex input.txt "grep W" "wc -w" output.txt
+
+
+leaks:
+	leaks --atExit -- ./pipex input.txt "grep W" "wc -w" output.txt
+	
 clean :
 	@printf $(CUT)$(CUT)
 	@$(RM) $(OBJ) pipex.dSYM

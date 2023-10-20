@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 16:52:10 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/18 16:53:30 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/19 13:13:23 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../includes/pipex.h"
 
 static int	count_words(char const *s, char c)
 {
@@ -103,9 +103,9 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	s_len = ft_strlen(s);
 	if (s == NULL)
-		return (0);
+		return (NULL);
 	if (start >= s_len)
-		return (ft_strdup(""));
+		return (NULL);
 	if (len > s_len - start)
 		len = s_len - start;
 	sub = malloc((len + 1) * sizeof(char));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:36:21 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/18 14:30:12 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/20 00:45:22 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,29 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	int	fd[2];
-	int	num1;
-	int	num2;
-	int	valid;
+	int		p_fd[2];
+	int		valid;
+	char	**env_path_list;
+	pid_t	pid;
 
-	printf("envp is: %s\n", envp[2]);
 	valid = validation(argc, argv);
 	if (valid < 0)
-		error(valid, "validation error Code ");
-	if (pipe(fd) < 0)
+		error("validation error Code ");
+	if (pipe(p_fd) < 0)
 		return (1);
-	file_handler(fd[1], "./input.txt", true);
-	// parsing of the cmd from arg[2]
-	scanf("%d %d", &num1, &num2);
-	file_handler(fd[0], "./output.txt", false);
-	// exec command from arg[3]
-	printf("salut = %d", num1 + num2);
+	env_path_list = extract_paths(envp);
+	pid = fork();
+	if (pid == -1)
+		error(" no child process is created");
+	if (pid == 0)
+	{
+		file_handler(p_fd, argv[1], true);
+		if (execute_cmd(env_path_list, argv[2], envp))
+			error("exec error 1st cmd");
+	}
+	waitpid(pid, NULL, 0);
+	file_handler(p_fd, argv[argc - 1], false);
+	if (execute_cmd(env_path_list, argv[3], envp))
+		error("exec error 2nd cmd");
 	return (0);
 }

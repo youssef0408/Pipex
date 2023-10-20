@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:34:43 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/18 17:18:33 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/20 01:10:02 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	file_handler(int fd_p, char *file_path, bool in_out)
+void	file_handler(int *fd_p, char *file_path, bool in_out)
 {
 	int	fd;
 	int	fd_1;
@@ -28,12 +28,12 @@ void	file_handler(int fd_p, char *file_path, bool in_out)
 		fd_1 = STDOUT_FILENO;
 		fd_2 = STDIN_FILENO;
 	}
-	fd = open(file_path, permission, 0777);
-	if (fd == -1)
-		fprintf(stderr, "error  file input not found");
+	fd = open(file_path, permission);
+	if (fd < 0)
+		error("error  file input not found");
 	dup2(fd, fd_1);
-	dup2(fd_p, fd_2);
-	close(fd);
+	dup2(fd_p[fd_2], fd_2);
+	close(fd_p[fd_1]);
 }
 
 int	validation(int argc, char **argv)
@@ -47,15 +47,51 @@ int	validation(int argc, char **argv)
 	return (0);
 }
 
-void	*extract_paths(char **envp)
+char	**extract_paths(char **envp)
 {
- 	char 	**paths_tab;
+	char	**paths_tab;
 	char	*path;
-	
+
 	while (*envp && !ft_strnstr(*envp, "PATH=", 5))
 		envp++;
 	path = ft_substr(*envp, 5, ft_strlen(*envp) - 5);
 	paths_tab = ft_split(path, ':');
 	free(path);
-	return(paths_tab);
+	return (paths_tab);
+}
+
+char	*get_cmd_path(char **paths, char *cmd)
+{
+	char	*cmd_path;
+	int		i;
+
+	i = 0;
+	while (paths[i])
+	{
+		cmd_path = ft_strjoin(paths[i], "/");
+		cmd_path = ft_strjoin(cmd_path, cmd);
+		if (access(cmd_path, F_OK) == 0)
+		{
+			return (cmd_path);
+		}
+		free(cmd_path);
+		i++;
+	}
+	i = 0;
+	while (paths[++i])
+		free(paths[i]);
+	free(paths);
+	return (NULL);
+}
+
+bool	execute_cmd(char **paths, char *cmd, char **envp)
+{
+	char	**tmp;
+	char	*cmd_path;
+
+	tmp = ft_split(cmd, ' ');
+	cmd_path = get_cmd_path(paths, tmp[0]);
+	if (!cmd_path)
+		return (false);
+	return (execve(cmd_path, tmp, envp) >= 0);
 }
