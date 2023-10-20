@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yothmani <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/17 20:44:56 by yothmani          #+#    #+#              #
-#    Updated: 2023/10/20 00:50:54 by yothmani         ###   ########.fr        #
+#    Updated: 2023/10/20 18:44:43 by yothmani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,11 +44,11 @@ norm :
 	@norminette $(SRC) $(INC_DIR)
 
 run :
-	make && ./pipex input.txt "grep W" "wc -w" output.txt
+	make && ./pipex infile "grep a1" "wc -w" outfile
 
 
 leaks:
-	leaks --atExit -- ./pipex input.txt "grep W" "wc -w" output.txt
+	leaks --atExit -- ./pipex infile "ls -l" "wc -w" output.txt
 	
 clean :
 	@printf $(CUT)$(CUT)

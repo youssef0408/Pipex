@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:36:21 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/20 00:45:22 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/20 18:53:00 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ int	main(int argc, char **argv, char **envp)
 
 	valid = validation(argc, argv);
 	if (valid < 0)
-		error("validation error Code ");
+		error("validation error \n");
 	if (pipe(p_fd) < 0)
 		return (1);
 	env_path_list = extract_paths(envp);
 	pid = fork();
 	if (pid == -1)
-		error(" no child process is created");
+		error(" no child process is created\n");
 	if (pid == 0)
 	{
 		file_handler(p_fd, argv[1], true);

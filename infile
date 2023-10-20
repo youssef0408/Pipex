@@ -1,0 +1,8 @@
+1/  fake is an invalid command                          ok
+
+2/ ls -fake is invalid command 
+
+3/ if the output file doesnt exist creat it             ok
+
+4/ pointer freed wasnt allocated           
+
