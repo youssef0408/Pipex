@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:36:21 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/20 18:53:00 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/21 02:45:42 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,34 @@ int	main(int argc, char **argv, char **envp)
 	pid_t	pid;
 
 	valid = validation(argc, argv);
-	if (valid < 0)
-		error("validation error \n");
+	if (valid != 0)
+		return(EXIT_FAILURE);
 	if (pipe(p_fd) < 0)
-		return (1);
+		error(" no pipe created\n");
 	env_path_list = extract_paths(envp);
+	if(!env_path_list)
+		error(" no env path found\n");
 	pid = fork();
 	if (pid == -1)
 		error(" no child process is created\n");
 	if (pid == 0)
 	{
 		file_handler(p_fd, argv[1], true);
-		if (execute_cmd(env_path_list, argv[2], envp))
-			error("exec error 1st cmd");
+		if (execute_cmd(env_path_list, argv[2], envp) == 1)
+		{
+			clean_table(env_path_list);
+			clean_table(envp);
+			return(EXIT_FAILURE);
+		}
 	}
 	waitpid(pid, NULL, 0);
 	file_handler(p_fd, argv[argc - 1], false);
-	if (execute_cmd(env_path_list, argv[3], envp))
-		error("exec error 2nd cmd");
-	return (0);
+	if(execute_cmd(env_path_list, argv[3], envp) == 1)
+	{
+		clean_table(env_path_list);
+		clean_table(envp);	
+		return(EXIT_FAILURE);
+	}
+	clean_table(env_path_list);
+	return (EXIT_SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:33:43 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/20 18:52:09 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/21 02:40:24 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <unistd.h>
 
 void	file_handler(int *fd, char *file_path, bool in_out);
-void	error(char *msg);
+int	    error(char *msg);
 int		validation(int argc, char **argv);
 char	*ft_itoa(int n);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
@@ -36,5 +36,5 @@ char	*get_cmd_path(char **paths, char *cmd);
 void	ft_putstr_fd(char *s, int fd);
 bool	execute_cmd(char **paths, char *cmd, char **envp);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-
+void	clean_table(char **tab);
 #endif

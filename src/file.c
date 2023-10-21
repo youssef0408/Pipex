@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:34:43 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/20 18:58:35 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/21 02:43:08 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,36 +24,40 @@ void	file_handler(int *fd_p, char *file_path, bool in_out)
 	fd_2 = STDOUT_FILENO;
 	if (!in_out)
 	{
-		permission = O_RDWR | O_CREAT | O_TRUNC;
+		permission = O_WRONLY | O_CREAT | O_TRUNC;
 		fd_1 = STDOUT_FILENO;
 		fd_2 = STDIN_FILENO;
 	}
-	fd = open(file_path, permission, 0777);
+	fd = open(file_path, permission, 0644);
 	if (fd < 0)
 		error("error  file input not found");
-	dup2(fd, fd_1);
-	dup2(fd_p[fd_2], fd_2);
+	if (dup2(fd, fd_1) == -1)
+		error("duplicate FD error input");
+	if (dup2(fd_p[fd_2], fd_2) == -1)
+		error("duplicate FD error output");
 	close(fd_p[fd_1]);
 }
 
 int	validation(int argc, char **argv)
 {
 	if (argc != 5)
-		return (-1);
+		error("Invalid arguments number!");
 	if (access(argv[1], O_RDONLY) < 0)
-		return (-2);
+		error("infile inaccessible !");
 	return (0);
 }
-// if (access(argv[4], O_RDWR | O_CREAT | O_TRUNC) < 0)
-// 	return (-3);
 
 char	**extract_paths(char **envp)
 {
 	char	**paths_tab;
 	char	*path;
 
+	if (!envp)
+		return (NULL);
 	while (*envp && !ft_strnstr(*envp, "PATH=", 5))
 		envp++;
+	if (!*envp)
+		return (NULL);
 	path = ft_substr(*envp, 5, ft_strlen(*envp) - 5);
 	paths_tab = ft_split(path, ':');
 	free(path);
@@ -61,113 +65,94 @@ char	**extract_paths(char **envp)
 	return (paths_tab);
 }
 
-// char	*get_cmd_path(char **paths, char *cmd)
-// {
-// 	char	*cmd_path;
-// 	int		i;
-// 	char	*temp;
-
-// 	i = 0;
-// 	while (paths[i])
-// 	{
-// 		temp = ft_strjoin(paths[i], "/");
-// 		if(!temp)
-// 			return(NULL);
-// 		cmd_path = ft_strjoin(temp, cmd);
-// 		if(!cmd_path)
-// 			return(NULL);
-// 		free(temp);
-// 		temp = NULL;
-// 		if (access(cmd_path, F_OK) == 0)
-// 			return (cmd_path);
-// 		free(cmd_path);
-// 		cmd_path = NULL;
-// 		i++;
-// 	}
-// 	i = 0;
-// 	while (paths[++i])
-// 		free(paths[i]);
-// 	free(paths);
-// 	paths = NULL;
-// 	return (NULL);
-// }
-
-// char	*get_cmd_path(char **paths, char *cmd)
-// {
-// 	int		i;
-// 	char	*cmd_path;
-// 	char	*temp;
-
-// 	i = 0;
-// 	cmd_path = NULL;
-// 	temp = NULL;
-// 	while (paths[i])
-// 	{
-// 		temp = ft_strjoin(paths[i], "/");
-// 		if (!temp)
-// 		{
-// 			free(cmd_path);
-// 			free_path_table(paths);
-// 			return (NULL);
-// 		}
-// 		cmd_path = ft_strjoin(temp, cmd);
-// 		free(temp);
-// 		temp = NULL;
-// 		if (!cmd_path)
-// 		{
-// 			free_path_table(paths);
-// 			return (NULL);
-// 		}
-// 		if (!access(cmd_path, F_OK))
-// 			break ;
-// 		free(cmd_path);
-// 		cmd_path = NULL;
-// 		i++;
-// 	}
-// 	free_path_table(paths);
-// 	return (cmd_path);
-// }
-
 char	*get_cmd_path(char **paths, char *cmd)
 {
+	char	*tmp;
 	char	*cmd_path;
 	int		i;
-	char	*temp;
 
 	i = 0;
 	while (paths[i])
 	{
-		temp = ft_strjoin(paths[i], "/");
-		cmd_path = ft_strjoin(temp, cmd);
-		if (!cmd_path)
-			return (NULL);
-		free(temp);
-		temp = NULL;
-		if (!access(cmd_path, F_OK))
-			break ;
+		tmp = ft_strjoin(paths[i], "/");
+		cmd_path = ft_strjoin(tmp, cmd);
+		free(tmp);
+		tmp = NULL;
+		if (access(cmd_path, F_OK) == 0)
+		{
+			clean_table(paths);
+			paths = NULL;
+			return (cmd_path);
+		}
 		free(cmd_path);
 		cmd_path = NULL;
 		i++;
 	}
-	i = -1;
-	while (paths[++i])
-		free(paths[i]);
-	free(paths);
+	free(cmd_path);
+	cmd_path = NULL;
+	clean_table(paths);
 	paths = NULL;
-	return (cmd_path);
+	return (NULL);
+}
+
+void	clean_table(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i++])
+		free(tab[i]);
+	free(tab);
+	tab = NULL;
 }
 
 bool	execute_cmd(char **paths, char *cmd, char **envp)
 {
 	char	**tmp;
 	char	*cmd_path;
+	char *error_msg;
 
 	tmp = ft_split(cmd, ' ');
 	cmd_path = get_cmd_path(paths, tmp[0]);
 	if (!cmd_path)
 	{
-		error("Invalid command!\n");
-		return (false);
+		clean_table(tmp);
+		tmp = NULL;
+		error_msg = ft_strjoin("Invalid command: ", cmd );
+		error(error_msg);
+		free(error_msg);
 	}
-	return (execve(cmd_path, tmp, envp) >= 0);
+	if(execve(cmd_path, tmp, envp)  == -1)
+	{
+		free(cmd_path);
+		clean_table(tmp);
+		cmd = NULL;
+		error("execution failed!");
+	}
+	return(false);
 }
+
+// bool	execute_cmd(char **paths, char *cmd, char **envp)
+// {
+// 	char	**tmp;
+// 	char	*cmd_path;
+// 	char *error_msg = NULL; // Initialize the error message
+
+// 	tmp = ft_split(cmd, ' ');
+// 	cmd_path = get_cmd_path(paths, tmp[0]);
+// 	if (!cmd_path)
+// 	{
+// 		clean_table(tmp);
+// 		error_msg = ft_strjoin("Invalid command: ", cmd);
+// 		return (error(error_msg)); // Return error code directly
+// 	}
+// 	if (execve(cmd_path, tmp, envp) == -1)
+// 	{
+// 		free(cmd_path);
+// 		clean_table(tmp);
+// 		return (error("Execution error !")); // Return error code directly
+// 	}
+// 	free(cmd_path);
+// 	clean_table(tmp);
+// 	return (false);
+// }

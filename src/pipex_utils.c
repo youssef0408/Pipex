@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:37:12 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/20 16:08:03 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/21 02:25:17 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	error(char *msg)
+int	error(char *msg)
 {
-	fprintf(stderr, "Error: \n %s", msg);
-	exit(1);
+	fprintf(stderr, "Error:  %s\n", msg);
+	return(EXIT_FAILURE);
 }
 
 static int	num_cases(int n)
