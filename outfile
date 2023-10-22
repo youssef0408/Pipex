@@ -1,14 +1,8 @@
-total 152
-drwxr-xr-x  13 bonjour  staff    416 Oct 21 02:45 .
-drwx------+ 24 bonjour  staff    768 Oct 18 19:21 ..
--rw-r--r--   1 bonjour  staff   6148 Oct 18 19:21 .DS_Store
-drwxr-xr-x  15 bonjour  staff    480 Oct 20 20:09 .git
-drwxr-xr-x   3 bonjour  staff     96 Oct 20 01:05 .vscode
--rw-r--r--   1 bonjour  staff   2301 Oct 21 02:46 Makefile
+total 128
+-rw-r--r--   1 bonjour  staff   2296 Oct 22 02:17 Makefile
 -rw-r--r--   1 bonjour  staff      7 Oct 16 18:19 README.md
-drwxr-xr-x   3 bonjour  staff     96 Oct 20 20:09 includes
--rw-r--r--   1 bonjour  staff     12 Oct 21 02:28 infile
--rwxr-xr-x   1 bonjour  staff      0 Oct 21 02:29 input
--rw-r--r--   1 bonjour  staff    747 Oct 21 02:46 outfile
--rwxr-xr-x   1 bonjour  staff  50944 Oct 21 02:45 pipex
-drwxr-xr-x  12 bonjour  staff    384 Oct 21 02:45 src
+drwxr-xr-x   3 bonjour  staff     96 Oct 22 01:53 includes
+-rw-r--r--   1 bonjour  staff     26 Oct 22 02:05 infile
+-rw-r--r--   1 bonjour  staff      0 Oct 22 02:17 outfile
+-rwxr-xr-x   1 bonjour  staff  50944 Oct 22 02:17 pipex
+drwxr-xr-x  12 bonjour  staff    384 Oct 22 02:17 src

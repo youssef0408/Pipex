@@ -6,7 +6,7 @@
 /*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:36:21 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/21 02:45:42 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/22 02:09:54 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ int	main(int argc, char **argv, char **envp)
 	if (valid != 0)
 		return(EXIT_FAILURE);
 	if (pipe(p_fd) < 0)
-		error(" no pipe created\n");
+		error(" pipe creation failed\n");
 	env_path_list = extract_paths(envp);
 	if(!env_path_list)
 		error(" no env path found\n");
 	pid = fork();
 	if (pid == -1)
-		error(" no child process is created\n");
+		error(" fork failed\n");
 	if (pid == 0)
 	{
 		file_handler(p_fd, argv[1], true);
@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 	}
 	waitpid(pid, NULL, 0);
-	file_handler(p_fd, argv[argc - 1], false);
+	file_handler(p_fd, argv[4], false);
 	if(execute_cmd(env_path_list, argv[3], envp) == 1)
 	{
 		clean_table(env_path_list);
