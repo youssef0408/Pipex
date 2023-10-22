@@ -1,0 +1,7 @@
+Error:  command not found: infile
+[1]    73091 segmentation fault  ./pipex outfile "cat" infile "ls -la"
+
+
+Error:  command not found: acat
+Error:  command not found: als -la
+[1]    76579 segmentation fault  ./pipex "infile" "acat" "als -la" outfile

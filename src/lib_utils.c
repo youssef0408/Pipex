@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 17:00:18 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/20 16:01:44 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/22 03:07:04 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,18 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 		i++;
 	}
+	return (0);
+}
+
+int	validation(int argc, char **argv)
+{
+	if (argc != 5)
+	{
+		error("Usage: ./pipex <file1> <cmd1> <cmd2> <file2> \n");
+		exit(0);
+	}
+		
+	if (access(argv[1], O_RDONLY) < 0)
+		fprintf(stderr, "\nError: The file <%s> does not exist.\n\n", argv[1]);
 	return (0);
 }

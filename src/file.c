@@ -6,7 +6,7 @@
 /*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:34:43 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/22 02:16:28 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/22 02:59:34 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,23 @@ void	file_handler(int *fd_p, char *file_path, bool in_out)
 		fd_1 = STDOUT_FILENO;
 		fd_2 = STDIN_FILENO;
 	}
-	fd = open(file_path, permission, 0777);
+	fd = open(file_path, permission, 0644);
 	if (fd < 0)
+	{
 		error("Bad file descriptor ! \n");
+		exit(0);
+	}
 	if (dup2(fd, fd_1) == -1)
+	{
 		error("input file descriptor failed \n");
+		exit(0);
+	}
 	if (dup2(fd_p[fd_2], fd_2) == -1)
+	{
 		error("output file descriptor failed \n");
+		exit(0);
+	}
 	close(fd_p[fd_1]);
-}
-
-int	validation(int argc, char **argv)
-{
-	if (argc != 5)
-		error("Usage: ./pipex <file1> <cmd1> <cmd2> <file2> !\n");
-	if (access(argv[1], O_RDONLY) < 0)
-		error("infile inaccessible !");
-	return (0);
 }
 
 char	**extract_paths(char **envp)
@@ -61,7 +61,6 @@ char	**extract_paths(char **envp)
 	path = ft_substr(*envp, 5, ft_strlen(*envp) - 5);
 	paths_tab = ft_split(path, ':');
 	free(path);
-	// path = NULL;
 	return (paths_tab);
 }
 
@@ -88,8 +87,6 @@ char	*get_cmd_path(char **paths, char *cmd)
 		cmd_path = NULL;
 		i++;
 	}
-	// clean_table(paths);
-	// paths = NULL;
 	return (NULL);
 }
 
@@ -101,17 +98,16 @@ void	clean_table(char **tab)
 	while (tab[i])
 	{
 		free(tab[i]);
-		i++;	
+		i++;
 	}
 	free(tab);
-	// tab = NULL;
 }
 
 bool	execute_cmd(char **paths, char *cmd, char **envp)
 {
 	char	**tmp;
 	char	*cmd_path;
-	char 	*error_msg;
+	char	*error_msg;
 
 	tmp = ft_split(cmd, ' ');
 	cmd_path = get_cmd_path(paths, tmp[0]);
@@ -119,18 +115,17 @@ bool	execute_cmd(char **paths, char *cmd, char **envp)
 	{
 		clean_table(tmp);
 		tmp = NULL;
-		error_msg = ft_strjoin("command not found: ", cmd );
+		error_msg = ft_strjoin("command not found: ", cmd);
 		error(error_msg);
 		free(error_msg);
-		
 	}
-	if(execve(cmd_path, tmp, envp)  == -1)
+	if (execve(cmd_path, tmp, envp) == -1)
 	{
 		free(cmd_path);
 		clean_table(tmp);
 		error("execution failed!");
 	}
 	free(cmd_path);
-    clean_table(tmp);
-	return(false);
+	clean_table(tmp);
+	return (false);
 }

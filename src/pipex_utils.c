@@ -6,7 +6,7 @@
 /*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:37:12 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/21 02:25:17 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/22 03:04:35 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	error(char *msg)
 {
-	fprintf(stderr, "Error:  %s\n", msg);
-	return(EXIT_FAILURE);
+	fprintf(stderr, "\nError:  %s\n", msg);
+	return (EXIT_FAILURE);
 }
 
 static int	num_cases(int n)
