@@ -6,7 +6,7 @@
 /*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:33:43 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/22 02:18:21 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/22 19:51:05 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-void	file_handler(int *fd, char *file_path, bool in_out);
+bool	file_handler(int *fd, char *file_path, bool in_out);
 int		error(char *msg);
-int		validation(int argc, char **argv);
+bool		validation(int argc, char **argv);
 char	*ft_itoa(int n);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	**ft_split(char const *s, char c);

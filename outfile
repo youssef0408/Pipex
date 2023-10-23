@@ -1,15 +1,1 @@
-total 152
-drwxr-xr-x  14 bonjour  staff    448 Oct 22 03:06 .
-drwx------+ 24 bonjour  staff    768 Oct 22 00:17 ..
--rw-r--r--   1 bonjour  staff   6148 Oct 18 19:21 .DS_Store
-drwxr-xr-x  15 bonjour  staff    480 Oct 22 02:18 .git
-drwxr-xr-x   3 bonjour  staff     96 Oct 20 01:05 .vscode
--rw-r--r--   1 bonjour  staff   2298 Oct 22 02:32 Makefile
--rw-r--r--   1 bonjour  staff      7 Oct 16 18:19 README.md
-drwxr-xr-x   3 bonjour  staff     96 Oct 22 01:53 includes
--rw-r--r--   1 bonjour  staff     26 Oct 22 02:05 infile
--rwxr-xr-x   1 bonjour  staff    248 Oct 22 03:02 notes.txt
--rw-r--r--   1 bonjour  staff      0 Oct 22 03:06 outfile
--rwxr-xr-x   1 bonjour  staff  50992 Oct 22 03:06 pipex
-drwxr-xr-x  14 bonjour  staff    448 Oct 22 02:28 pipex-tester
-drwxr-xr-x  12 bonjour  staff    384 Oct 22 03:06 src
+MacBook-Air-de-MacBook.local

@@ -6,7 +6,7 @@
 #    By: yothmani <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/17 20:44:56 by yothmani          #+#    #+#              #
-#    Updated: 2023/10/22 02:32:09 by yothmani         ###   ########.fr        #
+#    Updated: 2023/10/22 20:27:00 by yothmani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ run :
 
 
 leaks:
-	@make && leaks --atExit -- ./pipex infile "cat" "ls -l" outfile
+	@make && leaks --atExit -- ./pipex infile "ls -l -a" "cat" outfile 
 	
 clean :
 	@printf $(CUT)$(CUT)

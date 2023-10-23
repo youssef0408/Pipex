@@ -6,13 +6,13 @@
 /*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:34:43 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/22 02:59:34 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/22 19:47:55 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	file_handler(int *fd_p, char *file_path, bool in_out)
+bool	file_handler(int *fd_p, char *file_path, bool in_out)
 {
 	int	fd;
 	int	fd_1;
@@ -32,19 +32,20 @@ void	file_handler(int *fd_p, char *file_path, bool in_out)
 	if (fd < 0)
 	{
 		error("Bad file descriptor ! \n");
-		exit(0);
+		return(false);
 	}
 	if (dup2(fd, fd_1) == -1)
 	{
 		error("input file descriptor failed \n");
-		exit(0);
+		return(false);
 	}
 	if (dup2(fd_p[fd_2], fd_2) == -1)
 	{
 		error("output file descriptor failed \n");
-		exit(0);
+		return(false);
 	}
 	close(fd_p[fd_1]);
+	return true;
 }
 
 char	**extract_paths(char **envp)
@@ -118,14 +119,16 @@ bool	execute_cmd(char **paths, char *cmd, char **envp)
 		error_msg = ft_strjoin("command not found: ", cmd);
 		error(error_msg);
 		free(error_msg);
+		return false;
 	}
 	if (execve(cmd_path, tmp, envp) == -1)
 	{
 		free(cmd_path);
 		clean_table(tmp);
 		error("execution failed!");
+		return false;
 	}
 	free(cmd_path);
 	clean_table(tmp);
-	return (false);
+	return (true);
 }
