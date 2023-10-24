@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:37:12 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/22 19:26:27 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:14:08 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	error(char *msg)
 {
-	fprintf(stderr, "\nError:  %s\n", msg);
+	fprintf(stderr, "\n\033[31m\U0001F6A8Error\033[0m: %s\n\n", msg);
 	return (EXIT_FAILURE);
 }
 

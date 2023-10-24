@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:36:21 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/23 21:41:01 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:27:44 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 		waitpid(pid, NULL, 0);
 	}
-	// 
 	if (!file_handler(p_fd, argv[argc - 1], false))
 	{
 		clean_table(env_path_list);

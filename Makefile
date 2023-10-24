@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yothmani <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/17 20:44:56 by yothmani          #+#    #+#              #
-#    Updated: 2023/10/23 21:44:07 by yothmani         ###   ########.fr        #
+#    Updated: 2023/10/24 16:28:04 by yothmani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,10 +44,10 @@ norm :
 	@norminette $(SRC) $(INC_DIR)
 
 run :
-	@make && ./pipex infile "cat" "ls -a" infile
+	@make && ./pipex infile "cat" "ls -a" outfile
 
 leaks:
-	@make && leaks --atExit -- ./pipex outfile "cat" infile "ls -la"
+	@make && leaks --atExit -- ./pipex  infile "cat" "popdosplls -la"   outfile
 	
 clean :
 	@printf $(CUT)$(CUT)
