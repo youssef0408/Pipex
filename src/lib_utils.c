@@ -6,7 +6,7 @@
 /*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 17:00:18 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/22 19:50:36 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/23 20:56:37 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,20 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 
 bool	validation(int argc, char **argv)
 {
+	int	fd;
+
+	(void)argv;
 	if (argc != 5)
 	{
 		error("Usage: ./pipex <file1> <cmd1> <cmd2> <file2> \n");
-		return false;
+		return (false);
 	}
-		
+	fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC,0777);
+	close(fd);
 	if (access(argv[1], O_RDONLY) < 0)
 	{
 		fprintf(stderr, "\nError: The file <%s> does not exist.\n\n", argv[1]);
-		return false;
+		return (false);
 	}
-	return true;
+	return (true);
 }

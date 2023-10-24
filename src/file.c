@@ -6,7 +6,7 @@
 /*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:34:43 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/22 19:47:55 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/23 21:03:31 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,15 @@ bool	file_handler(int *fd_p, char *file_path, bool in_out)
 		fd_1 = STDOUT_FILENO;
 		fd_2 = STDIN_FILENO;
 	}
+	if (in_out && access(file_path, permission) < 0)
+	{
+		fprintf(stderr, "\nError: The file <%s> does not exist.\n\n", file_path);
+		return false;
+	}
 	fd = open(file_path, permission, 0644);
 	if (fd < 0)
 	{
-		error("Bad file descriptor ! \n");
+		error(strerror(errno));
 		return(false);
 	}
 	if (dup2(fd, fd_1) == -1)

@@ -6,7 +6,7 @@
 #    By: yothmani <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/17 20:44:56 by yothmani          #+#    #+#              #
-#    Updated: 2023/10/22 20:27:00 by yothmani         ###   ########.fr        #
+#    Updated: 2023/10/23 21:44:07 by yothmani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,11 +44,10 @@ norm :
 	@norminette $(SRC) $(INC_DIR)
 
 run :
-	@make && ./pipex infile "cat" "hostname" outfile
-
+	@make && ./pipex infile "cat" "ls -a" infile
 
 leaks:
-	@make && leaks --atExit -- ./pipex infile "ls -l -a" "cat" outfile 
+	@make && leaks --atExit -- ./pipex outfile "cat" infile "ls -la"
 	
 clean :
 	@printf $(CUT)$(CUT)

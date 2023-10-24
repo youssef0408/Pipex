@@ -6,7 +6,7 @@
 /*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:33:43 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/22 19:51:05 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/23 21:00:32 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <errno.h>
 
 bool	file_handler(int *fd, char *file_path, bool in_out);
 int		error(char *msg);
