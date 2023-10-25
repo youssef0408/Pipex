@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:34:43 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/23 21:03:31 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:29:49 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,28 @@ bool	file_handler(int *fd_p, char *file_path, bool in_out)
 	}
 	if (in_out && access(file_path, permission) < 0)
 	{
-		fprintf(stderr, "\nError: The file <%s> does not exist.\n\n", file_path);
-		return false;
+		fprintf(stderr, "\nError: The file <%s> does not exist.\n\n",
+			file_path);
+		return (false);
 	}
 	fd = open(file_path, permission, 0644);
 	if (fd < 0)
 	{
 		error(strerror(errno));
-		return(false);
+		return (false);
 	}
 	if (dup2(fd, fd_1) == -1)
 	{
 		error("input file descriptor failed \n");
-		return(false);
+		return (false);
 	}
 	if (dup2(fd_p[fd_2], fd_2) == -1)
 	{
 		error("output file descriptor failed \n");
-		return(false);
+		return (false);
 	}
 	close(fd_p[fd_1]);
-	return true;
+	return (true);
 }
 
 char	**extract_paths(char **envp)
@@ -124,14 +125,14 @@ bool	execute_cmd(char **paths, char *cmd, char **envp)
 		error_msg = ft_strjoin("command not found: ", cmd);
 		error(error_msg);
 		free(error_msg);
-		return false;
+		return (false);
 	}
 	if (execve(cmd_path, tmp, envp) == -1)
 	{
 		free(cmd_path);
 		clean_table(tmp);
 		error("execution failed!");
-		return false;
+		return (false);
 	}
 	free(cmd_path);
 	clean_table(tmp);

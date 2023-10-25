@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:33:43 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/23 21:00:32 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:28:26 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
+# include <errno.h>
 # include <fcntl.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -20,11 +21,10 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <errno.h>
 
 bool	file_handler(int *fd, char *file_path, bool in_out);
 int		error(char *msg);
-bool		validation(int argc, char **argv);
+bool	validation(int argc, char **argv);
 char	*ft_itoa(int n);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	**ft_split(char const *s, char c);
@@ -36,6 +36,5 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*get_cmd_path(char **paths, char *cmd);
 void	ft_putstr_fd(char *s, int fd);
 bool	execute_cmd(char **paths, char *cmd, char **envp);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	clean_table(char **tab);
 #endif
