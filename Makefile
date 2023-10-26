@@ -3,15 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+         #
+#    By: yothmani <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/17 20:44:56 by yothmani          #+#    #+#              #
-#    Updated: 2023/10/24 16:28:04 by yothmani         ###   ########.fr        #
+#    Updated: 2023/10/25 21:26:33 by yothmani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME 				= pipex
+
+NAME_BONUS 			= pipex_bonus
 
 CC 					= gcc
 CFLAGS 				= -Wall -Wextra -Werror
@@ -23,8 +25,10 @@ INC_DIR 			= includes
 
 INC 				= -I $(INC_DIR)
 
-SRC = $(SRC_DIR)/file.c $(SRC_DIR)/main.c $(SRC_DIR)/pipex_utils.c  $(SRC_DIR)/lib_utils.c\
-$(SRC_DIR)/path_utils.c \
+SRC = $(SRC_DIR)/file.c $(SRC_DIR)/pipex_utils.c  $(SRC_DIR)/lib_utils.c\
+$(SRC_DIR)/path_utils.c  $(SRC_DIR)/main_bonus.c\
+
+
 
 OBJ 				= $(SRC:.c=.o)
 
@@ -34,6 +38,13 @@ $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $^ $(INC)
 	@printf $(CUT)$(CUT)$(CUT)$(CUT)
 	@echo $(BOLD)$(L_PURPLE) PIPEX is ready to be executed ! 💪💥$(RESET)
+
+all bonus: $(NAME_BONUS)
+
+$(NAME_BONUS): $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $^ $(INC)
+	@printf $(CUT)$(CUT)$(CUT)$(CUT)
+	@echo $(BOLD)$(L_PURPLE) PIPEX BONUS is ready to be executed ! 💪💥$(RESET)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $< $(INC) 
@@ -45,6 +56,9 @@ norm :
 
 run :
 	@make && ./pipex infile "cat" "ls -a" outfile
+
+run_bonus:
+	@make bonus && ./pipex_bonus infile "grep a1" "wc -w" "cat" outfile
 
 leaks:
 	@make && leaks --atExit -- ./pipex  infile "cat" "popdosplls -la"   outfile
@@ -59,7 +73,7 @@ fclean : clean
 	@printf $(CUT)$(CUT)
 	@echo $(BOLD)$(L_PURPLE) ✨pipex✨ $(PINK)All cleaned up! ....🧹🗑️$(RESET)
 
-re: fclean all
+re: fclean all bonus
 
 .PHONY: all clean fclean re
 

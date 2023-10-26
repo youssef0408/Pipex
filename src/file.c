@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:34:43 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/25 17:29:49 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/25 20:20:56 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ bool	file_handler(int *fd_p, char *file_path, bool in_out)
 	int	permission;
 
 	permission = O_RDONLY;
-	fd_1 = STDIN_FILENO;
-	fd_2 = STDOUT_FILENO;
+	fd_1 = STDIN_FILENO; 
+	fd_2 = STDOUT_FILENO; 
 	if (!in_out)
 	{
 		permission = O_WRONLY | O_CREAT | O_TRUNC;
 		fd_1 = STDOUT_FILENO;
-		fd_2 = STDIN_FILENO;
+		fd_2 = STDIN_FILENO; 
 	}
 	if (in_out && access(file_path, permission) < 0)
 	{
@@ -40,19 +40,95 @@ bool	file_handler(int *fd_p, char *file_path, bool in_out)
 		error(strerror(errno));
 		return (false);
 	}
+	
 	if (dup2(fd, fd_1) == -1)
 	{
 		error("input file descriptor failed \n");
 		return (false);
 	}
+
 	if (dup2(fd_p[fd_2], fd_2) == -1)
 	{
 		error("output file descriptor failed \n");
 		return (false);
 	}
+	
 	close(fd_p[fd_1]);
 	return (true);
 }
+
+
+
+
+bool	file_input(int *fd_p, char *file_path)
+{
+	int	fd;
+	
+	if ( access(file_path, O_RDONLY) < 0)
+	{
+		fprintf(stderr, "\nError: The file <%s> does not exist.\n\n",
+			file_path);
+		return (false);
+	}
+	fd = open(file_path, O_RDONLY, 0644);
+	if (fd < 0)
+	{
+		error(strerror(errno));
+		return (false);
+	}
+	
+	if (dup2(fd, 0) == -1)
+	{
+		error("input file descriptor failed \n");
+		return (false);
+	}
+
+	if (dup2(fd_p[1], 1) == -1)
+	{
+		error("output file descriptor failed \n");
+		return (false);
+	}
+	
+	close(fd_p[0]);
+	return (true);
+}
+
+
+bool	file_output(int *fd_p, char *file_path)
+{
+	int	fd;
+
+	if ( access(file_path,  O_WRONLY | O_CREAT | O_TRUNC) < 0)
+	{
+		fprintf(stderr, "\nError: The file <%s> does not exist.\n\n",
+			file_path);
+		return (false);
+	}
+	fd = open(file_path,  O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		error(strerror(errno));
+		return (false);
+	}
+	
+	if (dup2(fd, 1) == -1)
+	{
+		error("input file descriptor failed \n");
+		return (false);
+	}
+
+	if (dup2(fd_p[0], 0) == -1)
+	{
+		error("output file descriptor failed \n");
+		return (false);
+	}
+	
+	close(fd_p[1]);
+	return (true);
+}
+
+
+
 
 char	**extract_paths(char **envp)
 {
