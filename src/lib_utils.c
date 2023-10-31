@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yothmani <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 17:00:18 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/25 18:58:04 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/10/31 17:55:04 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,18 @@ bool	validation(int argc, char **argv)
 	int	fd;
 
 	fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if(fd < 0)
+	if (fd < 0)
 	{
 		error("File descriptor not found\n");
 		close(fd);
-		return(false);
+		return (false);
 	}
 	close(fd);
-	// if (argc != 5)
-	// {
-	// 	error("Usage: ./pipex <file1> <cmd1> <cmd2> <file2> \n");
-	// 	return (false);
-	// }
+	if (argc != 5)
+	{
+		error("Usage: ./pipex <file1> <cmd1> <cmd2> <file2> \n");
+		return (false);
+	}
 	if (access(argv[1], O_RDONLY) < 0)
 	{
 		fprintf(stderr, "\nError: The file <%s> does not exist.\n\n", argv[1]);
