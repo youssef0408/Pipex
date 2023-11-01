@@ -6,43 +6,11 @@
 /*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:34:43 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/31 17:53:29 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/11/01 13:44:09 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-
-bool	file_handler(int *fd_p, char *file_path, bool in_out)
-{
-	int	fd;
-	int	fd_1;
-	int	fd_2;
-	int	permission;
-
-	permission = O_RDONLY;
-	fd_1 = STDIN_FILENO;
-	fd_2 = STDOUT_FILENO;
-	if (!in_out)
-	{
-		permission = O_WRONLY | O_CREAT | O_TRUNC;
-		fd_1 = STDOUT_FILENO;
-		fd_2 = STDIN_FILENO;
-	}
-	if (in_out && access(file_path, permission) < 0)
-	{
-		fprintf(stderr, "\nError: <%s> does not exist.\n\n", file_path);
-		return (false);
-	}
-	fd = open(file_path, permission, 0644);
-	if (fd < 0)
-		return (error(strerror(errno)), false);
-	if (dup2(fd, fd_1) == -1)
-		return (error("input file descriptor failed \n"), false);
-	if (dup2(fd_p[fd_2], fd_2) == -1)
-		return (error("output file descriptor failed \n"), false);
-	close(fd_p[fd_1]);
-	return (true);
-}
 
 char	*get_cmd_path(char **paths, char *cmd)
 {
@@ -68,19 +36,6 @@ char	*get_cmd_path(char **paths, char *cmd)
 		i++;
 	}
 	return (NULL);
-}
-
-void	clean_table(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
 }
 
 bool	execute_cmd(char **paths, char *cmd, char **envp)
@@ -110,4 +65,34 @@ bool	execute_cmd(char **paths, char *cmd, char **envp)
 	free(cmd_path);
 	clean_table(tmp);
 	return (true);
+}
+
+char	**extract_paths(char **envp)
+{
+	char	**paths_tab;
+	char	*path;
+
+	if (!envp)
+		return (NULL);
+	while (*envp && !ft_strnstr(*envp, "PATH=", 5))
+		envp++;
+	if (!*envp)
+		return (NULL);
+	path = ft_substr(*envp, 5, ft_strlen(*envp) - 5);
+	paths_tab = ft_split(path, ':');
+	free(path);
+	return (paths_tab);
+}
+
+void	clean_table(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
 }

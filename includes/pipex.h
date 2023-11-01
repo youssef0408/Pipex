@@ -6,7 +6,7 @@
 /*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:33:43 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/25 17:28:26 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/11/01 15:11:17 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-bool	file_handler(int *fd, char *file_path, bool in_out);
 int		error(char *msg);
 bool	validation(int argc, char **argv);
-char	*ft_itoa(int n);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	**ft_split(char const *s, char c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
@@ -37,4 +35,6 @@ char	*get_cmd_path(char **paths, char *cmd);
 void	ft_putstr_fd(char *s, int fd);
 bool	execute_cmd(char **paths, char *cmd, char **envp);
 void	clean_table(char **tab);
+void	child_process(int *fd, char **argv, char **env_path_list, char **envp);
+void	parent_process(int *fd, char **argv, char **env_path_list, char **envp);
 #endif

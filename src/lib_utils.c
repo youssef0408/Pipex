@@ -1,16 +1,66 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib_utils.c                                        :+:      :+:    :+:   */
+/*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 17:00:18 by yothmani          #+#    #+#             */
-/*   Updated: 2023/10/31 17:55:04 by yothmani         ###   ########.fr       */
+/*   Created: 2023/10/17 20:37:12 by yothmani          #+#    #+#             */
+/*   Updated: 2023/11/01 14:59:25 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
+
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+{
+	size_t	i;
+	size_t	j;
+
+	if (!haystack || !needle)
+		return (NULL);
+	if (*needle == '\0')
+		return ((char *)haystack);
+	i = 0;
+	while (haystack[i] != '\0' && i < len)
+	{
+		j = 0;
+		while (needle[j] != '\0' && haystack[i + j] == needle[j] && i + j < len)
+			j++;
+		if (needle[j] == '\0')
+			return ((char *)haystack + i);
+		i++;
+	}
+	return (NULL);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	int		i;
+	int		j;
+	char	*s3;
+
+	i = 0;
+	j = 0;
+	if (s1 == NULL || s2 == NULL)
+		return (0);
+	s3 = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
+	if (s3 == NULL)
+		return (0);
+	while (s1[i])
+	{
+		s3[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		s3[i] = s2[j];
+		i++;
+		j++;
+	}
+	s3[i] = '\0';
+	return (s3);
+}
 
 size_t	ft_strlen(const char *s)
 {
@@ -53,29 +103,4 @@ void	ft_putstr_fd(char *s, int fd)
 		write(fd, &(*s), 1);
 		s++;
 	}
-}
-
-bool	validation(int argc, char **argv)
-{
-	int	fd;
-
-	fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (fd < 0)
-	{
-		error("File descriptor not found\n");
-		close(fd);
-		return (false);
-	}
-	close(fd);
-	if (argc != 5)
-	{
-		error("Usage: ./pipex <file1> <cmd1> <cmd2> <file2> \n");
-		return (false);
-	}
-	if (access(argv[1], O_RDONLY) < 0)
-	{
-		fprintf(stderr, "\nError: The file <%s> does not exist.\n\n", argv[1]);
-		return (false);
-	}
-	return (true);
 }

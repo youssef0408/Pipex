@@ -1,3 +1,0 @@
-Si la 1ere cmd est introuvable/incorrecte la deuxieme cmd ne doit pas s'executer
-Si la 2eme cmd est introuvable/incorrecte make leaks ne doit pas crash
-Si il y a plusieurs args argv4 doit etre créer 

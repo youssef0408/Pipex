@@ -6,7 +6,7 @@
 #    By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/17 20:44:56 by yothmani          #+#    #+#              #
-#    Updated: 2023/10/31 12:34:27 by yothmani         ###   ########.fr        #
+#    Updated: 2023/11/01 15:13:09 by yothmani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,10 +23,8 @@ INC_DIR 			= includes
 
 INC 				= -I $(INC_DIR)
 
-SRC = $(SRC_DIR)/file.c $(SRC_DIR)/pipex_utils.c  $(SRC_DIR)/lib_utils.c\
-$(SRC_DIR)/path_utils.c  $(SRC_DIR)/main.c\
-
-
+SRC = $(SRC_DIR)/command_utils.c $(SRC_DIR)/lib_utils.c $(SRC_DIR)/main.c\
+$(SRC_DIR)/mini_lib.c $(SRC_DIR)/process_utils.c\
 
 OBJ 				= $(SRC:.c=.o)
 
@@ -37,7 +35,6 @@ $(NAME): $(OBJ)
 	@printf $(CUT)$(CUT)$(CUT)$(CUT)
 	@echo $(BOLD)$(L_PURPLE) PIPEX is ready to be executed ! 💪💥$(RESET)
 
-
 %.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $< $(INC) 
 	@echo $(BOLD)$(GREEN) "Compiled $<"
@@ -47,11 +44,10 @@ norm :
 	@norminette $(SRC) $(INC_DIR)
 
 run :
-	@make && ./pipex infile "cat" "ls -a" outfile
-
+	./pipex infile "ls -la" "cat" outfile
 
 leaks:
-	@make && leaks --atExit -- ./pipex  infile "cat" "popdosplls -la"   outfile
+	@make && leaks --atExit -- ./pipex infile "ls -la" "swc -w" new_outfile
 	
 clean :
 	@printf $(CUT)$(CUT)
