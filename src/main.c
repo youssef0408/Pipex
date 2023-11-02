@@ -6,7 +6,7 @@
 /*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:36:21 by yothmani          #+#    #+#             */
-/*   Updated: 2023/11/01 14:50:25 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/11/02 17:58:07 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	main(int argc, char **argv, char **envp)
 		waitpid(pid, NULL, 0);
 	}
 	parent_process(p_fd, argv, env_path_list, envp);
+	close(p_fd[0]);
+	close(p_fd[1]);
 	clean_table(env_path_list);
 	return (EXIT_SUCCESS);
 }

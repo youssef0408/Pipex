@@ -1,11 +1,17 @@
-total 136
-drwxr-xr-x  10 yothmani  2023_quebec    340 Nov  1 15:13 .
+total 168
+drwxr-xr-x  16 yothmani  2023_quebec    544 Nov  2 17:52 .
 drwxr-xr-x   3 yothmani  2023_quebec    102 Nov  1 14:50 ..
 -rw-r--r--   1 yothmani  2023_quebec   6148 Oct 20 14:18 .DS_Store
-drwxr-xr-x  15 yothmani  2023_quebec    510 Oct 31 17:56 .git
--rw-r--r--   1 yothmani  2023_quebec   2301 Nov  1 15:13 Makefile
+drwxr-xr-x  15 yothmani  2023_quebec    510 Nov  2 16:02 .git
+-rw-r--r--   1 yothmani  2023_quebec   3022 Nov  2 17:53 Makefile
 drwxr-xr-x   3 yothmani  2023_quebec    102 Oct 24 15:32 includes
--rw-r--r--   1 yothmani  2023_quebec     95 Nov  1 14:49 infile
--rw-r--r--   1 yothmani  2023_quebec      0 Nov  1 15:13 outfile
--rwxr-xr-x   1 yothmani  2023_quebec  51000 Nov  1 15:13 pipex
-drwxr-xr-x  12 yothmani  2023_quebec    408 Nov  1 15:13 src
+-rwxrwxrwx   1 yothmani  2023_quebec     95 Nov  1 14:49 infile
+-rwxr-xr-x   1 yothmani  2023_quebec      9 Nov  2 17:26 new_outfile
+-rw-r--r--   1 yothmani  2023_quebec      0 Nov  2 17:57 outfile
+-rwxr-xr-x   1 yothmani  2023_quebec     52 Nov  2 16:03 outfile2
+-rwxr-xr-x   1 yothmani  2023_quebec    840 Nov  2 16:05 outfile2000
+-rwxr-xr-x   1 yothmani  2023_quebec  51040 Nov  2 17:52 pipex
+drwxr-xr-x   3 yothmani  2023_quebec    102 Nov  2 17:52 pipex.dSYM
+drwxr-xr-x  12 yothmani  2023_quebec    408 Nov  2 17:52 src
+-rw-r--r--   1 yothmani  2023_quebec    771 Nov  2 16:04 zout
+-rwxr-xr-x   1 yothmani  2023_quebec      0 Nov  2 16:54 zzzzzz

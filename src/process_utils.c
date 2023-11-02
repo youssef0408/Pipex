@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate_and_create.c                              :+:      :+:    :+:   */
+/*   process_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 13:42:37 by yothmani          #+#    #+#             */
-/*   Updated: 2023/11/01 14:56:21 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/11/02 17:57:24 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,12 @@ void	child_process(int *fd, char **argv, char **env_path_list, char **envp)
 	env_path_list = extract_paths(envp);
 	fd_in = open(argv[1], O_RDONLY, 0644);
 	if (fd_in < 0)
+	{
 		error(strerror(errno));
+		clean_table(env_path_list);
+		close(fd_in);
+		exit(-1);
+	}
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(fd_in, STDIN_FILENO);
 	close(fd[0]);
@@ -69,6 +74,8 @@ void	parent_process(int *fd, char **argv, char **env_path_list, char **envp)
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd[1]);
+	close(fd_out);
+	close(fd[0]);
 	if (!execute_cmd(env_path_list, argv[3], envp))
 		clean_table(env_path_list);
 }

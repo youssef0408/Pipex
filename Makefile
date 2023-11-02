@@ -6,7 +6,7 @@
 #    By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/17 20:44:56 by yothmani          #+#    #+#              #
-#    Updated: 2023/11/01 15:13:09 by yothmani         ###   ########.fr        #
+#    Updated: 2023/11/02 17:53:13 by yothmani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,9 +46,30 @@ norm :
 run :
 	./pipex infile "ls -la" "cat" outfile
 
-leaks:
-	@make && leaks --atExit -- ./pipex infile "ls -la" "swc -w" new_outfile
+	# valgrind $(LEAK_CHECK) ./pipex
+	# valgrind $(LOG_FILE)./pipex infile "ls -la" "cat" outfile
+
 	
+ORIGIN		:= --track-origins=yes
+LEAK_CHECK	:= --leak-check=full
+LEAK_KIND	:= --show-leak-kinds=all
+CHILDREN	:= --trace-children=yes
+FD_TRACK	:= --track-fds=yes
+NO_REACH	:= --show-reachable=no
+VERBOSE		:= --verbose
+LOG_FILE	:= --log-file=valgrind-out.txt
+
+
+leaks:
+	valgrind $(ORIGIN) $(LEAK_KIND) $(LEAK_KIND) $(CHILDREN) $(FD_TRACK) $(NO_REACH) $(VERBOSE) ./pipex infile "ls -la" "cat" outfile
+	
+salut:
+	valgrind $(LEAK_KIND) ./pipex infile "ls -la" "cat" outfile
+	valgrind $(CHILDREN) ./pipex infile "ls -la" "cat" outfile
+	valgrind $(FD_TRACK) ./pipex infile "ls -la" "cat" outfile
+	valgrind $(NO_REACH) ./pipex infile "ls -la" "cat" outfile
+	valgrind $(VERBOSE) ./pipex infile "ls -la" "cat" outfile
+	 
 clean :
 	@printf $(CUT)$(CUT)
 	@$(RM) $(OBJ) pipex.dSYM
