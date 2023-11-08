@@ -61,14 +61,7 @@ LOG_FILE	:= --log-file=valgrind-out.txt
 
 
 leaks:
-	valgrind $(ORIGIN) $(LEAK_KIND) $(LEAK_KIND) $(CHILDREN) $(FD_TRACK) $(NO_REACH) $(VERBOSE) ./pipex infile "ls -la" "cat" outfile
-	
-salut:
-	valgrind $(LEAK_KIND) ./pipex infile "ls -la" "cat" outfile
-	valgrind $(CHILDREN) ./pipex infile "ls -la" "cat" outfile
-	valgrind $(FD_TRACK) ./pipex infile "ls -la" "cat" outfile
-	valgrind $(NO_REACH) ./pipex infile "ls -la" "cat" outfile
-	valgrind $(VERBOSE) ./pipex infile "ls -la" "cat" outfile
+	valgrind $(ORIGIN) $(LEAK_CHECK) $(LEAK_KIND) $(CHILDREN) $(FD_TRACK) $(NO_REACH) $(VERBOSE) ./pipex infile "ls -la" "cat" outfile
 	 
 clean :
 	@printf $(CUT)$(CUT)
