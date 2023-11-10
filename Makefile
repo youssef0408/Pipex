@@ -6,7 +6,7 @@
 #    By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/17 20:44:56 by yothmani          #+#    #+#              #
-#    Updated: 2023/11/09 19:49:53 by yothmani         ###   ########.fr        #
+#    Updated: 2023/11/10 14:32:10 by yothmani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,21 +40,12 @@ $(NAME): $(OBJ)
 	@echo $(BOLD)$(GREEN) "Compiled $<"
 
 norm :
-	@echo $(BOLD)$(PINK)" Mandatory part!"$(MINT)
+	@echo $(BOLD)$(PINK)"_____Mandatory part!_____"$(MINT)
 	@norminette $(SRC) $(INC_DIR)
 
 run :
 	./pipex infile "ls -la" "cat" outfile
-	
-ORIGIN		:= --track-origins=yes
-LEAK_CHECK	:= --leak-check=full
-LEAK_KIND	:= --show-leak-kinds=all
-CHILDREN	:= --trace-children=yes
-FD_TRACK	:= --track-fds=yes
 
-leaks:
-	@valgrind $(ORIGIN) $(LEAK_CHECK) $(LEAK_KIND) $(CHILDREN) $(FD_TRACK) --dsymutil=no -s ./pipex infile "ls -la" "cat" outfile
-	 
 clean :
 	@printf $(CUT)$(CUT)
 	@$(RM) $(OBJ) pipex.dSYM
@@ -69,7 +60,7 @@ re: fclean all
 
 .PHONY: all clean fclean re
 
-# ######################### Color #########################
+# ######################### Colors #########################
 
 GREEN="\033[32m"
 MINT="\033[38;5;51m"

@@ -1,67 +1,64 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file.c                                             :+:      :+:    :+:   */
+/*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:34:43 by yothmani          #+#    #+#             */
-/*   Updated: 2023/11/01 13:44:09 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/11/10 13:53:26 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-char	*get_cmd_path(char **paths, char *cmd)
+char	*get_cmd_path(char *cmd, char **envp)
 {
-	char	*tmp;
-	char	*cmd_path;
+	char	**paths;
+	char	*path;
 	int		i;
+	char	*part_path;
 
+	i = 0;
+	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+		i++;
+	paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (paths[i])
 	{
-		tmp = ft_strjoin(paths[i], "/");
-		cmd_path = ft_strjoin(tmp, cmd);
-		free(tmp);
-		tmp = NULL;
-		if (access(cmd_path, F_OK) == 0)
-		{
-			clean_table(paths);
-			paths = NULL;
-			return (cmd_path);
-		}
-		free(cmd_path);
-		cmd_path = NULL;
+		part_path = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(part_path, cmd);
+		free(part_path);
+		if (access(path, F_OK) == 0)
+			return (path);
+		free(path);
 		i++;
 	}
-	return (NULL);
+	i = -1;
+	while (paths[++i])
+		free(paths[i]);
+	free(paths);
+	return (0);
 }
 
-bool	execute_cmd(char **paths, char *cmd, char **envp)
+bool	execute_cmd(char *cmd, char **envp)
 {
 	char	**tmp;
 	char	*cmd_path;
 	char	*error_msg;
 
 	tmp = ft_split(cmd, ' ');
-	cmd_path = get_cmd_path(paths, tmp[0]);
+	cmd_path = get_cmd_path(tmp[0], envp);
 	if (!cmd_path)
 	{
 		clean_table(tmp);
-		tmp = NULL;
 		error_msg = ft_strjoin("command not found: ", cmd);
 		error(error_msg);
 		free(error_msg);
 		return (false);
 	}
 	if (execve(cmd_path, tmp, envp) == -1)
-	{
-		free(cmd_path);
-		clean_table(tmp);
-		error("execution failed!");
 		return (false);
-	}
 	free(cmd_path);
 	clean_table(tmp);
 	return (true);
