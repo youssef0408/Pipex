@@ -6,7 +6,7 @@
 #    By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/17 20:44:56 by yothmani          #+#    #+#              #
-#    Updated: 2023/11/02 17:53:13 by yothmani         ###   ########.fr        #
+#    Updated: 2023/11/09 19:49:53 by yothmani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,23 +45,15 @@ norm :
 
 run :
 	./pipex infile "ls -la" "cat" outfile
-
-	# valgrind $(LEAK_CHECK) ./pipex
-	# valgrind $(LOG_FILE)./pipex infile "ls -la" "cat" outfile
-
 	
 ORIGIN		:= --track-origins=yes
 LEAK_CHECK	:= --leak-check=full
 LEAK_KIND	:= --show-leak-kinds=all
 CHILDREN	:= --trace-children=yes
 FD_TRACK	:= --track-fds=yes
-NO_REACH	:= --show-reachable=no
-VERBOSE		:= --verbose
-LOG_FILE	:= --log-file=valgrind-out.txt
-
 
 leaks:
-	valgrind $(ORIGIN) $(LEAK_CHECK) $(LEAK_KIND) $(CHILDREN) $(FD_TRACK) $(NO_REACH) $(VERBOSE) ./pipex infile "ls -la" "cat" outfile
+	@valgrind $(ORIGIN) $(LEAK_CHECK) $(LEAK_KIND) $(CHILDREN) $(FD_TRACK) --dsymutil=no -s ./pipex infile "ls -la" "cat" outfile
 	 
 clean :
 	@printf $(CUT)$(CUT)

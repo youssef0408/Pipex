@@ -6,7 +6,7 @@
 /*   By: yothmani <yothmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 13:42:37 by yothmani          #+#    #+#             */
-/*   Updated: 2023/11/02 17:57:24 by yothmani         ###   ########.fr       */
+/*   Updated: 2023/11/09 19:37:42 by yothmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	child_process(int *fd, char **argv, char **env_path_list, char **envp)
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(fd_in, STDIN_FILENO);
 	close(fd[0]);
+	close(fd_in);
+	close(fd[1]);
 	if (!execute_cmd(env_path_list, argv[2], envp))
 		clean_table(env_path_list);
 }
